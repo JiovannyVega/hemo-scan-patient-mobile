@@ -1,52 +1,66 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+    // estilo de contenedor general
     container: {
         flex: 1,
+        marginTop: 100,
+    },
+
+    // estilo de contenedores
+    welcomeView: {
+        flex: 1,
+        alignSelf: 'center',
+        width: '80%',
+    },
+
+    form: {
+        flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
     },
-    title: {
-        fontSize: 40,
-        fontWeight: 600,
-        paddingVertical: 10,
-    },
-    subtitle: {
-        fontSize: 20,
+
+    btnView: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
         paddingBottom: 40,
     },
-    form: {
-        alignItems: 'stretch',
-        width: '75%',
-    },
-    formInput: {
-        fontSize: 16,
-        backgroundColor: '#1B595D',
-        color: '#F7F7F7',
-        borderRadius: 10,
-        paddingLeft: 50,
-        height: 50,
-    },
-    textLink: {
-        fontSize: 14,
-        color: '#5F0354',
-        paddingTop: 10,
+
+    // estilo de textos
+    title: {
+        fontSize: 48,
         paddingBottom: 20,
-        textAlign: 'right',
     },
-    btn: {
-        alignItems: 'center',
-        paddingTop: 50,
+
+    subtitle: {
+        fontSize: 24,
     },
-    loginBtn: {
-        fontSize: 20,
-        fontWeight: 500,
-        backgroundColor: '#184666',
-        borderRadius: 15,
-        color: '#F7F7F7',
-        textAlign: 'center',
-        textAlignVertical: 'center',
-        width: 130,
+
+    text: {
+        fontSize: 18,
+    },
+
+    // estilo de componentes extra
+    formInput: {
+        backgroundColor: '#CFCFCF',
+        borderRadius: 10,
+        fontSize: 16,
+        paddingLeft: 40,
         height: 50,
-    }
+        width: '80%',
+    },
+
+    link: {
+        textAlign: 'center',
+    },
+
+    submitBtn: {
+        backgroundColor: '#CFCFCF',
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        width: '80%',
+    },
 });
