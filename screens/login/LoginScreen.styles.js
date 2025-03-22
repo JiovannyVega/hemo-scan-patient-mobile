@@ -4,32 +4,45 @@ export default StyleSheet.create({
     // estilo de contenedor general
     container: {
         flex: 1,
-        marginTop: 100,
+        paddingTop: 100,
+        backgroundColor: '#EDF1F2'
     },
 
     // estilo de contenedores
     welcomeView: {
-        flex: 1,
+        flex: 7,
         alignSelf: 'center',
         width: '80%',
     },
 
     form: {
-        flex: 1,
+        flex: 7,
         alignItems: 'center',
         justifyContent: 'space-around',
+        paddingTop: 20,
+        paddingBottom: 20,
+        margin: 20,
+        borderRadius: 20,
+        elevation: 10,
+        backgroundColor: '#FFF'
     },
 
     btnView: {
-        flex: 1,
+        flex: 8,
         alignItems: 'center',
         justifyContent: 'flex-end',
-        paddingBottom: 40,
+        paddingBottom: 20,
     },
 
     // estilo de textos
     title: {
         fontSize: 48,
+    },
+
+    customTitle : {
+        fontSize: 48,
+        fontWeight: 600,
+        color: '#2B3D50',
         paddingBottom: 20,
     },
 
@@ -41,14 +54,21 @@ export default StyleSheet.create({
         fontSize: 18,
     },
 
+    btnText: {
+        color: '#FFF',
+        fontSize: 24,
+
+    },
+
     // estilo de componentes extra
     formInput: {
-        backgroundColor: '#CFCFCF',
-        borderRadius: 10,
+        color: '#FFF',
+        backgroundColor: '#1ABC9C',
+        borderRadius: 5,
         fontSize: 16,
         paddingLeft: 40,
         height: 50,
-        width: '80%',
+        width: '90%',
     },
 
     link: {
@@ -56,7 +76,7 @@ export default StyleSheet.create({
     },
 
     submitBtn: {
-        backgroundColor: '#CFCFCF',
+        backgroundColor: '#2B3D50',
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',

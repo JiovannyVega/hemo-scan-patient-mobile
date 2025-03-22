@@ -11,11 +11,15 @@ export default function HomeScreen() {
 
             <View style={styles.welcomeView}>
                 <Text style={styles.title}>
-                    {"Bienvenido a\nHemoScan"}
+                    Bienvenido a
+                </Text>
+
+                <Text style={styles.customTitle}>
+                    HemoScan
                 </Text>
 
                 <Text style={styles.subtitle}>
-                    Inicia sesión para continuar
+                    Inicie sesión para continuar
                 </Text>
             </View>
 
@@ -24,12 +28,14 @@ export default function HomeScreen() {
                     style={styles.formInput}
                     onChangeText={onChangeCURP}
                     placeholder='Ingrese su CURP'
+                    placeholderTextColor='#FFF'
                 ></TextInput>
 
                 <TextInput
                     style={styles.formInput}
                     onChangeText={onChangeEmail}
                     placeholder='Ingrese su correo electrónico'
+                    placeholderTextColor='#FFF'
                 ></TextInput>
 
                 <TouchableOpacity>
@@ -42,7 +48,7 @@ export default function HomeScreen() {
 
             <View style={styles.btnView}>
                 <TouchableOpacity style={styles.submitBtn}>
-                    <Text style={styles.subtitle}>
+                    <Text style={styles.btnText}>
                         Iniciar sesión
                     </Text>
                 </TouchableOpacity>
