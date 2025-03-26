@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import styles from './LoginScreen.styles.js';
 
 export default function HomeScreen() {
+    const navigation = useNavigation();
     const [curp, onChangeCURP] = React.useState('');
     const [email, onChangeEmail] = React.useState('');
 
@@ -47,7 +49,12 @@ export default function HomeScreen() {
             </View>
 
             <View style={styles.btnView}>
-                <TouchableOpacity style={styles.submitBtn}>
+                <TouchableOpacity 
+                    style={styles.submitBtn}
+                    onPress={() =>
+                        navigation.navigate('DatosScreen')
+                    }
+                >
                     <Text style={styles.btnText}>
                         Iniciar sesión
                     </Text>
