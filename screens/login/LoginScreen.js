@@ -10,45 +10,57 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Inicia sesión</Text>
-            <Text style={styles.subtitle}>Ingresa tus datos a continuación</Text>
+
+            <View style={styles.welcomeView}>
+                <Text style={styles.title}>
+                    Bienvenido a
+                </Text>
+
+                <Text style={styles.customTitle}>
+                    HemoScan
+                </Text>
+
+                <Text style={styles.subtitle}>
+                    Inicie sesión para continuar
+                </Text>
+            </View>
+
             <View style={styles.form}>
                 <TextInput
                     style={styles.formInput}
                     onChangeText={onChangeCURP}
-                    value={curp}
-                    placeholder='Ingresa tu CURP'
-                    placeholderTextColor='#C5C5C5'
-                    autoCapitalize='characters'
-                />
-                <TouchableOpacity
-                    onPress={() => {
-                        // Ir a página de consulta tu CURP
-                    }}
-                >
-                    <View>
-                        <Text style={styles.textLink}>Consulta tu CURP</Text>
-                    </View>
-                </TouchableOpacity>
+                    placeholder='Ingrese su CURP'
+                    placeholderTextColor='#FFF'
+                ></TextInput>
+
                 <TextInput
                     style={styles.formInput}
                     onChangeText={onChangeEmail}
-                    value={email}
-                    placeholder='Ingresa tu correo electrónico'
-                    placeholderTextColor='#C5C5C5'
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                />
-                <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate('DatosScreen');
-                    }}
+                    placeholder='Ingrese su correo electrónico'
+                    placeholderTextColor='#FFF'
+                ></TextInput>
+
+                <TouchableOpacity>
+                    <Text style={styles.link}>
+                        ¿No sabes tu CURP?
+                    </Text>
+                </TouchableOpacity>
+
+            </View>
+
+            <View style={styles.btnView}>
+                <TouchableOpacity 
+                    style={styles.submitBtn}
+                    onPress={() =>
+                        navigation.navigate('DatosScreen')
+                    }
                 >
-                    <View style={styles.btn}>
-                        <Text style={styles.loginBtn}>Ingresar</Text>
-                    </View>
+                    <Text style={styles.btnText}>
+                        Iniciar sesión
+                    </Text>
                 </TouchableOpacity>
             </View>
+
         </View>
     );
 }
