@@ -1,111 +1,81 @@
-import React from 'react';
-import { FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, Dimensions } from 'react-native';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import styles from './ResultadosScreen.styles';
 
 export default function HomeScreen() {
-
     // data de ejemplo
-    const DATA = [
-        {id: 1, 'parameter': 'Eritrocitos (RGBC)', 'value': 1.00, 'range': 5.05, 'unit': 'millones/mL'},
-        {id: 2, 'parameter': 'Hemogoblina (HGB)', 'value': 1.00, 'range': 15.50, 'unit': 'g/dL'},
-        {id: 3, 'parameter': 'Hematrocito (HCT)', 'value': 1.00, 'range': 46.00, 'unit': '%'},
-        {id: 4, 'parameter': 'MCV (VCM)', 'value': 1.00, 'range': 90.00, 'unit': 'fL'},
-        {id: 5, 'parameter': 'MCH (HCM)', 'value': 1.00, 'range': 29.50, 'unit': 'pg'},
-    ]
+    const DATA_ROJA = [
+        { id: 1, parameter: 'Eritrocitos (RGBC)', value: 1.00, range: 5.05, unit: 'millones/mL' },
+        { id: 2, parameter: 'Hemogoblina (HGB)', value: 1.00, range: 15.50, unit: 'g/dL' },
+        { id: 3, parameter: 'Hematrocito (HCT)', value: 1.00, range: 46.00, unit: '%' },
+    ];
 
-    const renderRow = ({ item, index }) => (
-        <View
-            style={[
-                styles.row,
-                { backgroundColor: index % 2 === 0 ? '#BDC3C7' : '#A8BFCE' },
-            ]}
-        >
-            <Text style={styles.textRow}>{item.parameter}</Text>
-            <Text style={styles.textRow}>{item.value}</Text>
-            <Text style={styles.textRow}>{item.range}</Text>
-            <Text style={styles.textRow}>{item.unit}</Text>
+    const DATA_BLANCA = [
+        { id: 1, parameter: 'Leucocitos (WBC)', value: 4.50, range: 11.00, unit: 'mil/mm³' },
+        { id: 2, parameter: 'Neutrófilos', value: 60.00, range: 70.00, unit: '%' },
+    ];
+
+    const DATA_TROMBOCITICA = [
+        { id: 1, parameter: 'Plaquetas', value: 150.00, range: 400.00, unit: 'mil/mm³' },
+    ];
+
+    const renderTable = (data) => (
+        <View style={styles.tableView}>
+            <View style={styles.header}>
+                <Text style={styles.heading}>Parámetro</Text>
+                <Text style={styles.heading}>Valor</Text>
+                <Text style={styles.heading}>Rango</Text>
+                <Text style={styles.heading}>Unidad</Text>
+            </View>
+            {data.map((item, index) => (
+                <View
+                    key={item.id}
+                    style={[
+                        styles.row,
+                        { backgroundColor: index % 2 === 0 ? '#BDC3C7' : '#A8BFCE' },
+                    ]}
+                >
+                    <Text style={styles.textRow}>{item.parameter}</Text>
+                    <Text style={styles.textRow}>{item.value}</Text>
+                    <Text style={styles.textRow}>{item.range}</Text>
+                    <Text style={styles.textRow}>{item.unit}</Text>
+                </View>
+            ))}
         </View>
     );
 
+    const FormulaRoja = () => renderTable(DATA_ROJA);
+    const FormulaBlanca = () => renderTable(DATA_BLANCA);
+    const FormulaTrombocitica = () => renderTable(DATA_TROMBOCITICA);
+
+    const [index, setIndex] = useState(0);
+    const [routes] = useState([
+        { key: 'roja', title: 'Fórmula Roja' },
+        { key: 'blanca', title: 'Fórmula Blanca' },
+        { key: 'trombocitica', title: 'Fórmula Trombocítica' },
+    ]);
+
+    const renderScene = SceneMap({
+        roja: FormulaRoja,
+        blanca: FormulaBlanca,
+        trombocitica: FormulaTrombocitica,
+    });
+
     return (
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-            <View style={styles.dataView}>
-                <View style={styles.listView}>
-                    <View style={styles.section}>
-                        <Text style={styles.label}>Nombre</Text>
-                        <Text style={styles.value}>Nombre persona</Text>
-                    </View>
-                    <View style={styles.section}>
-                        <Text style={styles.label}>Fecha de análisis</Text>
-                        <Text style={styles.value}>01/01/2000</Text>
-                    </View>
-                    <View style={[styles.section, styles.rowView]}>
-                        <View style={styles.column}>
-                            <Text style={styles.label}>Edad</Text>
-                            <Text style={styles.value}>Edad persona</Text>
-                        </View>
-                        <View style={styles.column}>
-                            <Text style={styles.label}>Grupo de edad</Text>
-                            <Text style={styles.value}>Grupo persona</Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.tableView}>
-                <Text style={styles.title}>Fórmula roja</Text>
-                <View style={styles.header}>
-                    <Text style={styles.heading}>Parámetro</Text>
-                    <Text style={styles.heading}>Valor</Text>
-                    <Text style={styles.heading}>Rango</Text>
-                    <Text style={styles.heading}>Unidad</Text>
-                </View>
-                <FlatList
-                    data={DATA}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderRow}
+        <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{ width: Dimensions.get('window').width }}
+            renderTabBar={(props) => (
+                <TabBar
+                    {...props}
+                    indicatorStyle={{ backgroundColor: '#2B3D50' }}
+                    style={{ backgroundColor: '#1ABC9C' }}
+                    labelStyle={{ fontSize: 14, fontWeight: 'bold' }}
                 />
-            </View>
-
-            <View style={styles.tableView}>
-                <Text style={styles.title}>Fórmula blanca</Text>
-                <View style={styles.header}>
-                    <Text style={styles.heading}>Parámetro</Text>
-                    <Text style={styles.heading}>Valor</Text>
-                    <Text style={styles.heading}>Rango</Text>
-                    <Text style={styles.heading}>Unidad</Text>
-                </View>
-                <FlatList
-                    data={DATA}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderRow}
-                />
-            </View>
-
-            <View style={styles.tableView}>
-                <Text style={styles.title}>Fórmula trombocítica</Text>
-                <View style={styles.header}>
-                    <Text style={styles.heading}>Parámetro</Text>
-                    <Text style={styles.heading}>Valor</Text>
-                    <Text style={styles.heading}>Rango</Text>
-                    <Text style={styles.heading}>Unidad</Text>
-                </View>
-                <FlatList
-                    data={DATA}
-                    keyExtractor={(item) => item.id}
-                    renderItem={renderRow}
-                />
-            </View>
-
-            <View style={styles.btnView}>
-                <TouchableOpacity
-                    style={styles.submitBtn}
-                >
-                    <Text style={styles.btnText}>
-                        Agregar valores de referencia
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
+            )}
+        />
     );
 }

@@ -1,23 +1,85 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StatusBar, FlatList, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from './DatosScreen.styles.js';
 
 export default function HomeScreen() {
-    const navigation = useNavigation();       
+    const navigation = useNavigation();
+    const route = useRoute();
+    const { userData } = route.params; // Obtener los datos del usuario desde los parámetros
+    const [analyses, setAnalyses] = useState([]); // Estado para almacenar los análisis
 
-    // data de ejemplo
-    const DATA = [
-        { id: 1, name: 'Jesus', analysisDate: '10/01/2025' },
-        { id: 2, name: 'Jesus', analysisDate: '10/01/2025' },
-        { id: 3, name: 'Jesus', analysisDate: '10/01/2025' },
-        { id: 4, name: 'Jesus', analysisDate: '10/01/2025' },
-        { id: 5, name: 'Jesus', analysisDate: '10/01/2025' },
-        { id: 6, name: 'Jesus', analysisDate: '10/01/2025' },
-        { id: 7, name: 'Jesus', analysisDate: '10/01/2025' },
-    ]
+    // Simular llamada a la API para obtener los análisis
+    useEffect(() => {
+        const fetchAnalyses = () => {
+            const apiResponse = {
+                success: true,
+                message: "Analyses retrieved successfully",
+                data: [
+                    {
+                        analysis: {
+                            id: 1,
+                            person_id: 1,
+                            lab_id: 2,
+                            user_id: 1,
+                            date: "2023-10-15T00:00:00.000Z",
+                            description: "Análisis de sangre completo",
+                            status: "pending"
+                        },
+                        lab: {
+                            id: 2,
+                            name: "Lab 2",
+                            email: "lab2@example.com",
+                            phone: "1234567891",
+                            active: true
+                        },
+                        user: {
+                            id: 1,
+                            username: "Marisol",
+                            email: "marisol@gmail.com",
+                            password_hash: "$2b$10$LHQCkbeVZB9fsz38wXeP2uSCku9FhyI44iK6Cs8f/e6xyndTakKpi",
+                            lab_id: 1,
+                            active: true
+                        }
+                    },
+                    {
+                        analysis: {
+                            id: 2,
+                            person_id: 1,
+                            lab_id: 1,
+                            user_id: 1,
+                            date: "2023-10-15T00:00:00.000Z",
+                            description: "Análisis de sangre completo",
+                            status: "pending"
+                        },
+                        lab: {
+                            id: 1,
+                            name: "Lab 1",
+                            email: "lab1@example.com",
+                            phone: "1234567890",
+                            active: true
+                        },
+                        user: {
+                            id: 1,
+                            username: "Marisol",
+                            email: "marisol@gmail.com",
+                            password_hash: "$2b$10$LHQCkbeVZB9fsz38wXeP2uSCku9FhyI44iK6Cs8f/e6xyndTakKpi",
+                            lab_id: 1,
+                            active: true
+                        }
+                    }
+                ]
+            };
 
-    // crea un boton por cada item y alterna colores
+            if (apiResponse.success) {
+                setAnalyses(apiResponse.data); // Guardar los análisis en el estado
+            }
+        };
+
+        fetchAnalyses();
+    }, []);
+
+    // Renderizar cada fila de la tabla
     const renderRow = ({ item, index }) => (
         <TouchableOpacity
             onPress={() =>
@@ -30,8 +92,9 @@ export default function HomeScreen() {
                     { backgroundColor: index % 2 === 0 ? '#BDC3C7' : '#A8BFCE' },
                 ]}
             >
-                <Text style={styles.textRow}>{item.name}</Text>
-                <Text style={styles.textRow}>{item.analysisDate}</Text>
+                <Text style={styles.textRow}>{new Date(item.analysis.date).toLocaleDateString()}</Text>
+                <Text style={styles.textRow}>{item.analysis.description}</Text>
+                <Text style={styles.textRow}>{item.lab.name}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -40,46 +103,45 @@ export default function HomeScreen() {
         <View style={styles.container}>
             <StatusBar backgroundColor="#EDF1F2" barStyle="dark-content" />
             <View style={styles.dataView}>
-                
                 <View style={styles.listView}>
                     <View style={styles.section}>
                         <Text style={styles.label}>Nombre</Text>
-                        <Text style={styles.value}>Nombre persona</Text>
-                    </View>
-                    
-                    <View style={styles.section}>
-                        <Text style={styles.label}>Fecha de nacimiento</Text>
-                        <Text style={styles.value}>01/01/2000</Text>
-                    </View>
-                    <View style={styles.section}>
-                        <Text style={styles.label}>Sexo</Text>
-                        <Text style={styles.value}>Sexo persona</Text>
-                    </View>
-                    <View style={[styles.section, styles.rowView]}>
-                        <View style={styles.column}>
-                            <Text style={styles.label}>Edad</Text>
-                            <Text style={styles.value}>Edad persona</Text>
-                        </View>
-                        
-                        <View style={styles.column}>
-                            <Text style={styles.label}>Grupo de edad</Text>
-                            <Text style={styles.value}>Grupo persona</Text>
-                        </View>
-                        
+                        <Text style={styles.value}>{`${userData.first_name} ${userData.last_name}`}</Text>
                     </View>
 
+                    <View style={styles.section}>
+                        <Text style={styles.label}>Fecha de nacimiento</Text>
+                        <Text style={styles.value}>{new Date(userData.birth_date).toLocaleDateString()}</Text>
+                    </View>
+
+                    <View style={styles.section}>
+                        <Text style={styles.label}>Sexo</Text>
+                        <Text style={styles.value}>{userData.gender === 'M' ? 'Masculino' : 'Femenino'}</Text>
+                    </View>
+
+                    <View style={[styles.section, styles.rowView]}>
+                        <View style={styles.column}>
+                            <Text style={styles.label}>CURP</Text>
+                            <Text style={styles.value}>{userData.curp}</Text>
+                        </View>
+
+                        <View style={styles.column}>
+                            <Text style={styles.label}>Correo</Text>
+                            <Text style={styles.value}>{userData.email}</Text>
+                        </View>
+                    </View>
                 </View>
-                
             </View>
 
             <View style={styles.tableView}>
                 <View style={styles.header}>
-                    <Text style={styles.heading}>Nombre</Text>
-                    <Text style={styles.heading}>Fecha de análisis</Text>
+                    <Text style={styles.heading}>Fecha</Text>
+                    <Text style={styles.heading}>Descripción</Text>
+                    <Text style={styles.heading}>Laboratorio</Text>
                 </View>
                 <FlatList
-                    data={DATA}
-                    keyExtractor={(item) => item.id}
+                    data={analyses}
+                    keyExtractor={(item) => item.analysis.id.toString()}
                     renderItem={renderRow}
                 />
             </View>
