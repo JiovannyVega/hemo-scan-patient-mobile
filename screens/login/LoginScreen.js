@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './LoginScreen.styles.js';
 
@@ -7,6 +7,9 @@ export default function HomeScreen() {
     const navigation = useNavigation();
     const [curp, onChangeCURP] = React.useState('');
     const [email, onChangeEmail] = React.useState('');
+    const openURL = (url) => {
+        Linking.openURL(url).catch((err) => console.error('Ha ocurrido un error', err));
+    }
 
     return (
         <View style={styles.container}>
@@ -40,7 +43,7 @@ export default function HomeScreen() {
                     placeholderTextColor='#FFF'
                 ></TextInput>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => {openURL('https://www.gob.mx/curp/')}}>
                     <Text style={styles.link}>
                         ¿No sabes tu CURP?
                     </Text>
