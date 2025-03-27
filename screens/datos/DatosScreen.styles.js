@@ -9,10 +9,10 @@ export default StyleSheet.create({
 
     // estilo de contenedores
     dataView: {
-        flex: 1,
+        flex: 0.8,
         backgroundColor: '#FFF',
         borderRadius: 20,
-        margin: 20,
+        margin: 15,
         elevation: 10,
     },
 
@@ -25,6 +25,28 @@ export default StyleSheet.create({
         flex: 1,
     },
 
+    rowView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+    },
+
+    section: {
+        borderTopWidth: 1,
+        paddingVertical: 10,
+    },
+
+    // estilo de textos
+    label: {
+        fontWeight: 600,
+        fontSize: 14,
+    },
+
+    value: {
+        fontSize: 14,
+        marginTop: 4,
+    },
+
     // estilo de FlatList
     header: {
         flexDirection: 'row',
@@ -35,12 +57,6 @@ export default StyleSheet.create({
         flex: 1,
         fontSize: 14,
         fontWeight: 600,
-    },
-    
-    item: {
-        backgroundColor: 'lightblue',
-        padding: 15,
-        marginTop: 10,
     },
 
     row: {
