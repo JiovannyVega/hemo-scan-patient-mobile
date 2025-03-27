@@ -25,14 +25,13 @@ export default function HomeScreen() {
         { id: 7, name: 'Jesus', analysisDate: '10/01/2025' },
     ]
 
-    // crea un boton por cada item y asigna colores
-    // NOTA: cambiar los colores por la paleta de colores
+    // crea un boton por cada item y alterna colores
     const renderRow = ({ item, index }) => (
         <TouchableOpacity>
             <View
                 style={[
                     styles.row,
-                    { backgroundColor: index % 2 === 0 ? 'lightblue' : 'lightyellow' },
+                    { backgroundColor: index % 2 === 0 ? '#BDC3C7' : '#A8BFCE' },
                 ]}
             >
                 <Text style={styles.textRow}>{item.name}</Text>

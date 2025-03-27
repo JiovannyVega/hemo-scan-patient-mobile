@@ -12,6 +12,7 @@ export default StyleSheet.create({
         flex: 0.8,
         backgroundColor: '#FFF',
         borderRadius: 20,
+        marginVertical: 20,
         margin: 15,
         elevation: 10,
     },
