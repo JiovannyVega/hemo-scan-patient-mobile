@@ -26,9 +26,30 @@ export default StyleSheet.create({
     },
 
     // estilo de FlatList
+    header: {
+        flexDirection: 'row',
+        padding: 20,
+    },
+
+    heading: {
+        flex: 1,
+        fontSize: 14,
+        fontWeight: 600,
+    },
+    
     item: {
         backgroundColor: 'lightblue',
         padding: 15,
         marginTop: 10,
+    },
+
+    row: {
+        flexDirection: 'row',
+        padding: 20,
+    },
+
+    textRow: {
+        flex: 1,
+        fontSize: 14,
     },
 });
