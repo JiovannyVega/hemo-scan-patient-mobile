@@ -12,6 +12,7 @@ export default StyleSheet.create({
         flex: 0.8,
         backgroundColor: '#FFF',
         borderRadius: 20,
+        paddingVertical: 10,
         marginVertical: 20,
         margin: 15,
         elevation: 10,
@@ -51,22 +52,24 @@ export default StyleSheet.create({
     // estilo de FlatList
     header: {
         flexDirection: 'row',
-        padding: 20,
+        paddingVertical: 20,
     },
 
     heading: {
         flex: 1,
         fontSize: 14,
         fontWeight: 600,
+        textAlign: 'center',
     },
 
     row: {
         flexDirection: 'row',
-        padding: 20,
+        paddingVertical: 20,
     },
 
     textRow: {
         flex: 1,
         fontSize: 14,
+        textAlign: 'center',
     },
 });
