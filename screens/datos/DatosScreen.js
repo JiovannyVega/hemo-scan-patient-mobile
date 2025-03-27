@@ -6,15 +6,7 @@ import styles from './DatosScreen.styles.js';
 export default function HomeScreen() {
     const navigation = useNavigation();       
 
-    // data's de ejemplo
-    const people = [
-        { name: 'pepito', id: 1 },
-        { name: 'pablito', id: 2 },
-        { name: 'juanito', id: 3 },
-        { name: 'chonito', id: 4 },
-        { name: 'chuchito', id: 5 },
-    ]
-
+    // data de ejemplo
     const DATA = [
         { id: 1, name: 'Jesus', analysisDate: '10/01/2025' },
         { id: 2, name: 'Jesus', analysisDate: '10/01/2025' },
@@ -27,7 +19,11 @@ export default function HomeScreen() {
 
     // crea un boton por cada item y alterna colores
     const renderRow = ({ item, index }) => (
-        <TouchableOpacity>
+        <TouchableOpacity
+            onPress={() =>
+                navigation.navigate('ResultadosScreen')
+            }
+        >
             <View
                 style={[
                     styles.row,
