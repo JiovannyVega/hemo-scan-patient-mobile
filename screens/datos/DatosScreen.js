@@ -1,36 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StatusBar, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from './DatosScreen.styles.js';
 
 export default function HomeScreen() {
-    const navigation = useNavigation();
+    const navigation = useNavigation();       
 
-    const data = [
-        {
-            id: 1,
-            title: 'First item'
-        },
-        {
-            id: 2,
-            title: 'Second item'
-        }
+    // data de ejemplo
+    const people = [
+        { name: 'pepito', id: 1 },
+        { name: 'pablito', id: 2 },
+        { name: 'juanito', id: 3 },
+        { name: 'chonito', id: 4 },
+        { name: 'chuchito', id: 5 },
     ]
-
-    const Item = ({title}) => (
-        <View style={styles.item}>
-            <Text style={styles.title}>{title}</Text>
-        </View>
-    )
 
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor="#184666" barStyle="light-content" />
-            <FlatList
-                data={data}
-                renderItem={({item}) => <Item title={item.title} />}
-                keyExtractor={item => item.id}
-            />
+            <StatusBar backgroundColor="#EDF1F2" barStyle="dark-content" />
+            <View style={styles.dataView}>
+                
+                <View style={styles.listView}>
+                    <FlatList 
+                        data = {people}
+                        renderItem={({ item }) => (
+                            <Text style={styles.item}>{item.name}</Text>
+                        )}
+                    />
+                </View>
+                
+            </View>
+
+            <View style={styles.tableView}>
+                
+            </View>
         </View>
     );
 }
