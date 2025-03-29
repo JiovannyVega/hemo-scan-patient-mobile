@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     // estilo de contenedor general
@@ -9,6 +9,7 @@ export default StyleSheet.create({
 
     // estilo de contenedores
     dataView: {
+        flex: 0.6,
         backgroundColor: '#FFF',
         borderRadius: 20,
         paddingVertical: 10,
@@ -20,13 +21,11 @@ export default StyleSheet.create({
     listView: {
         flex: 1,
         margin: 20,
-        display: 'grid', // Usar diseño de cuadrícula
-        gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', // Diseño responsivo
-        gap: 20, // Espaciado entre elementos
     },
 
     tableView: {
         flex: 1,
+        marginBottom: 20,
     },
 
     rowView: {
@@ -36,8 +35,15 @@ export default StyleSheet.create({
     },
 
     section: {
-        borderBottomWidth: 1,
+        borderTopWidth: 1,
         paddingVertical: 10,
+    },
+
+    btnView: {
+        flex: 8,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        paddingBottom: 20,
     },
 
     // estilo de textos
@@ -51,10 +57,17 @@ export default StyleSheet.create({
         marginTop: 4,
     },
 
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#2B3D50',
+        textAlign: 'center',
+    },
+
     // estilo de FlatList
     header: {
         flexDirection: 'row',
-        paddingVertical: 20,
+        padding: 20,
     },
 
     heading: {
@@ -66,7 +79,7 @@ export default StyleSheet.create({
 
     row: {
         flexDirection: 'row',
-        paddingVertical: 20,
+        padding: 20,
     },
 
     textRow: {
@@ -74,4 +87,19 @@ export default StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
     },
-});
+
+    btnText: {
+        color: '#FFF',
+        fontSize: 20,
+    },
+
+    // estilo de componentes extra
+    submitBtn: {
+        backgroundColor: '#2B3D50',
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        width: '80%',
+    },
+})
