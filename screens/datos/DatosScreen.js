@@ -2,81 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StatusBar, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from './DatosScreen.styles.js';
+import { URL_API } from '@env'; // Importar la URL de la API desde el archivo .env
+import axios from 'axios';
 
 export default function HomeScreen() {
     const navigation = useNavigation();
     const route = useRoute();
     const { userData } = route.params; // Obtener los datos del usuario desde los parámetros
-    const [analyses, setAnalyses] = useState([]); // Estado para almacenar los análisis
+    const [analysis, setAnalysis] = useState([]); // Estado para almacenar los análisis
 
     // Simular llamada a la API para obtener los análisis
-    useEffect(() => {
-        const fetchAnalyses = () => {
-            const apiResponse = {
-                success: true,
-                message: "Analyses retrieved successfully",
-                data: [
-                    {
-                        analysis: {
-                            id: 1,
-                            person_id: 1,
-                            lab_id: 2,
-                            user_id: 1,
-                            date: "2023-10-15T00:00:00.000Z",
-                            description: "Análisis de sangre completo",
-                            status: "pending"
-                        },
-                        lab: {
-                            id: 2,
-                            name: "Lab 2",
-                            email: "lab2@example.com",
-                            phone: "1234567891",
-                            active: true
-                        },
-                        user: {
-                            id: 1,
-                            username: "Marisol",
-                            email: "marisol@gmail.com",
-                            password_hash: "$2b$10$LHQCkbeVZB9fsz38wXeP2uSCku9FhyI44iK6Cs8f/e6xyndTakKpi",
-                            lab_id: 1,
-                            active: true
-                        }
-                    },
-                    {
-                        analysis: {
-                            id: 2,
-                            person_id: 1,
-                            lab_id: 1,
-                            user_id: 1,
-                            date: "2023-10-15T00:00:00.000Z",
-                            description: "Análisis de sangre completo",
-                            status: "pending"
-                        },
-                        lab: {
-                            id: 1,
-                            name: "Lab 1",
-                            email: "lab1@example.com",
-                            phone: "1234567890",
-                            active: true
-                        },
-                        user: {
-                            id: 1,
-                            username: "Marisol",
-                            email: "marisol@gmail.com",
-                            password_hash: "$2b$10$LHQCkbeVZB9fsz38wXeP2uSCku9FhyI44iK6Cs8f/e6xyndTakKpi",
-                            lab_id: 1,
-                            active: true
-                        }
-                    }
-                ]
-            };
-
-            if (apiResponse.success) {
-                setAnalyses(apiResponse.data); // Guardar los análisis en el estado
-            }
-        };
-
-        fetchAnalyses();
+    useEffect(async () => {
+        const apiResponse = await axios.get(`${URL_API}/analysis/person/${userData.id}/with-lab`); // Llamada a la API para obtener los análisis
+        if (apiResponse.data.success) { // Cambiar a apiResponse.data.success
+            setAnalysis(apiResponse.data.data); // Guardar los análisis en el estado
+        }
     }, []);
 
     // Renderizar cada fila de la tabla
@@ -92,9 +32,9 @@ export default function HomeScreen() {
                     { backgroundColor: index % 2 === 0 ? '#BDC3C7' : '#A8BFCE' },
                 ]}
             >
-                <Text style={styles.textRow}>{new Date(item.analysis.date).toLocaleDateString()}</Text>
-                <Text style={styles.textRow}>{item.analysis.description}</Text>
-                <Text style={styles.textRow}>{item.lab.name}</Text>
+                <Text style={styles.textRow}>{new Date(item.date).toLocaleDateString()}</Text>
+                <Text style={styles.textRow}>{item.description}</Text>
+                <Text style={styles.textRow}>{item.lab_name}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -119,16 +59,14 @@ export default function HomeScreen() {
                         <Text style={styles.value}>{userData.gender === 'M' ? 'Masculino' : 'Femenino'}</Text>
                     </View>
 
-                    <View style={[styles.section, styles.rowView]}>
-                        <View style={styles.column}>
-                            <Text style={styles.label}>CURP</Text>
-                            <Text style={styles.value}>{userData.curp}</Text>
-                        </View>
+                    <View style={styles.section}>
+                        <Text style={styles.label}>CURP</Text>
+                        <Text style={styles.value}>{userData.curp}</Text>
+                    </View>
 
-                        <View style={styles.column}>
-                            <Text style={styles.label}>Correo</Text>
-                            <Text style={styles.value}>{userData.email}</Text>
-                        </View>
+                    <View style={styles.section}>
+                        <Text style={styles.label}>Correo</Text>
+                        <Text style={styles.value}>{userData.email}</Text>
                     </View>
                 </View>
             </View>
@@ -140,8 +78,8 @@ export default function HomeScreen() {
                     <Text style={styles.heading}>Laboratorio</Text>
                 </View>
                 <FlatList
-                    data={analyses}
-                    keyExtractor={(item) => item.analysis.id.toString()}
+                    data={analysis}
+                    keyExtractor={(item) => item.id.toString()}
                     renderItem={renderRow}
                 />
             </View>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Linking, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { URL_API } from '@env';
 import styles from './LoginScreen.styles.js';
 
 export default function HomeScreen() {
@@ -14,30 +16,18 @@ export default function HomeScreen() {
     };
 
     const fetchUserData = async () => {
-        // Simular respuesta de la API
-        return new Promise((resolve) => {
-            const apiResponse = {
-                success: true,
-                message: "Person retrieved successfully",
-                data: {
-                    id: 1,
-                    first_name: "Juan",
-                    last_name: "Perez",
-                    birth_date: "1990-01-01T00:00:00.000Z",
-                    gender: "M",
-                    curp: "GAVE010726HNEMGRA7",
-                    email: "juan.perez@example.com",
-                    phone: "8123943808"
-                }
-            };
-
-            if (apiResponse.success) {
-                setUserData(apiResponse.data); // Guardar los datos en el estado
-                resolve(apiResponse); // Resolver la promesa con la respuesta simulada
+        try {
+            const response = await axios.post(`${URL_API}/person/login`, { curp, email });
+            if (response.data && response.data.success) {
+                setUserData(response.data);
+                return { success: true, data: response.data }; // Retornar los datos correctamente
             } else {
-                resolve({ success: false, message: "No se pudo obtener la información del usuario." });
+                return { success: false, message: response.data?.message || "No se pudo obtener la información del usuario." };
             }
-        });
+        } catch (error) {
+            console.error("Error al llamar a la API:", error);
+            return { success: false, message: "Ocurrió un error al comunicarse con el servidor." };
+        }
     };
 
     return (
@@ -86,7 +76,7 @@ export default function HomeScreen() {
                     onPress={async () => {
                         const response = await fetchUserData(); // Esperar la respuesta de la "API"
                         if (response.success) {
-                            navigation.navigate('DatosScreen', { userData: response.data }); // Navegar con los datos del usuario
+                            navigation.navigate('DatosScreen', { userData: response.data.data }); // Corregir para pasar los datos del usuario
                         } else {
                             Alert.alert("Error", response.message);
                         }

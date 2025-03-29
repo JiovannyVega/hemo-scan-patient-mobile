@@ -9,7 +9,6 @@ export default StyleSheet.create({
 
     // estilo de contenedores
     dataView: {
-        flex: 0.8,
         backgroundColor: '#FFF',
         borderRadius: 20,
         paddingVertical: 10,
@@ -21,6 +20,9 @@ export default StyleSheet.create({
     listView: {
         flex: 1,
         margin: 20,
+        display: 'grid', // Usar diseño de cuadrícula
+        gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', // Diseño responsivo
+        gap: 20, // Espaciado entre elementos
     },
 
     tableView: {
@@ -34,7 +36,7 @@ export default StyleSheet.create({
     },
 
     section: {
-        borderTopWidth: 1,
+        borderBottomWidth: 1,
         paddingVertical: 10,
     },
 
