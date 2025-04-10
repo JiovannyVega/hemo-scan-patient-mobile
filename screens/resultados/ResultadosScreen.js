@@ -1,31 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRoute } from '@react-navigation/native';
 import { Text, View, Dimensions } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import styles from './ResultadosScreen.styles';
 
 export default function HomeScreen() {
-    // data de ejemplo
-    const DATA_ROJA = [
-        { id: 1, parameter: 'Eritrocitos (RGBC)', value: 1.00, range: 5.05, unit: 'millones/mL' },
-        { id: 2, parameter: 'Hemogoblina (HGB)', value: 1.00, range: 15.50, unit: 'g/dL' },
-        { id: 3, parameter: 'Hematrocito (HCT)', value: 1.00, range: 46.00, unit: '%' },
-    ];
 
-    const DATA_BLANCA = [
-        { id: 1, parameter: 'Leucocitos (WBC)', value: 4.50, range: 11.00, unit: 'mil/mm³' },
-        { id: 2, parameter: 'Neutrófilos', value: 60.00, range: 70.00, unit: '%' },
-    ];
+    const route = useRoute();
+    const { analysisData } = route.params || {};
 
-    const DATA_TROMBOCITICA = [
-        { id: 1, parameter: 'Plaquetas', value: 150.00, range: 400.00, unit: 'mil/mm³' },
-    ];
+    // data vacía para debug
+    DATA = []
+
+    // debugeando que reciba los datos
+    useEffect(() => {
+        if (analysisData) {
+            console.log('datos recibidos en resultadosScreen', analysisData)
+        } else {
+            console.log('no se recibieron los datos')
+        }
+    }, [analysisData])
+
+
 
     const renderTable = (data) => (
         <View style={styles.tableView}>
             <View style={styles.header}>
                 <Text style={styles.heading}>Parámetro</Text>
                 <Text style={styles.heading}>Valor</Text>
-                <Text style={styles.heading}>Rango</Text>
+                <Text style={styles.heading}>Rango Mínimo</Text>
+                <Text style={styles.heading}>Rango Máximo</Text>
                 <Text style={styles.heading}>Unidad</Text>
             </View>
             {data.map((item, index) => (
@@ -38,17 +42,17 @@ export default function HomeScreen() {
                 >
                     <Text style={styles.textRow}>{item.parameter}</Text>
                     <Text style={styles.textRow}>{item.value}</Text>
-                    <Text style={styles.textRow}>{item.range}</Text>
+                    <Text style={styles.textRow}>{item.min_range}</Text>
+                    <Text style={styles.textRow}>{item.max_range}</Text>
                     <Text style={styles.textRow}>{item.unit}</Text>
                 </View>
             ))}
         </View>
     );
 
-    const FormulaRoja = () => renderTable(DATA_ROJA);
-    const FormulaBlanca = () => renderTable(DATA_BLANCA);
-    const FormulaTrombocitica = () => renderTable(DATA_TROMBOCITICA);
-
+    const FormulaRoja = () => renderTable(DATA);
+    const FormulaBlanca = () => renderTable(DATA);
+    const FormulaTrombocitica = () => renderTable(DATA);
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         { key: 'roja', title: 'Fórmula Roja' },

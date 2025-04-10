@@ -9,21 +9,30 @@ export default function HomeScreen() {
     const navigation = useNavigation();
     const route = useRoute();
     const { userData } = route.params; // Obtener los datos del usuario desde los parámetros
-    const [analysis, setAnalysis] = useState([]); // Estado para almacenar los análisis
+    const [analysisData, setAnalysis] = useState([]); // Estado para almacenar los análisis
 
     // Simular llamada a la API para obtener los análisis
-    useEffect(async () => {
-        const apiResponse = await axios.get(`${URL_API}/analysis/person/${userData.id}/with-lab`); // Llamada a la API para obtener los análisis
-        if (apiResponse.data.success) { // Cambiar a apiResponse.data.success
-            setAnalysis(apiResponse.data.data); // Guardar los análisis en el estado
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const apiResponse = await axios.get(`${URL_API}/analysis/person/${userData.id}/with-lab`); // Llamada a la API para obtener los análisis
+                if (apiResponse.data.success) { // Cambiar a apiResponse.data.success
+                    setAnalysis(apiResponse.data.data); // Guardar los análisis en el estado
+                }
+            } catch (error) {
+                console.error('Error al obtener los análisis', error);
+            }
         }
+        fetchUserData();
     }, []);
 
     // Renderizar cada fila de la tabla
     const renderRow = ({ item, index }) => (
         <TouchableOpacity
-            onPress={() =>
-                navigation.navigate('ResultadosScreen')
+            onPress={() => {
+                console.log('mandando datos...', item)
+                navigation.navigate('ResultadosScreen', { analysisData: item })
+            }
             }
         >
             <View
@@ -34,6 +43,7 @@ export default function HomeScreen() {
             >
                 <Text style={styles.textRow}>{new Date(item.date).toLocaleDateString()}</Text>
                 <Text style={styles.textRow}>{item.description}</Text>
+                <Text style={styles.textRow}>{item.status}</Text>
                 <Text style={styles.textRow}>{item.lab_name}</Text>
             </View>
         </TouchableOpacity>
@@ -75,10 +85,11 @@ export default function HomeScreen() {
                 <View style={styles.header}>
                     <Text style={styles.heading}>Fecha</Text>
                     <Text style={styles.heading}>Descripción</Text>
+                    <Text style={styles.heading}>Estatus</Text>
                     <Text style={styles.heading}>Laboratorio</Text>
                 </View>
                 <FlatList
-                    data={analysis}
+                    data={analysisData}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={renderRow}
                 />
