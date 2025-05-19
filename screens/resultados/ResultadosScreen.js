@@ -3,25 +3,33 @@ import { useRoute } from '@react-navigation/native';
 import { Text, View, Dimensions } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import styles from './ResultadosScreen.styles';
+import axios from 'axios';
+import { URL_API } from '@env'; // Importar la URL de la API desde el archivo .env
 
 export default function HomeScreen() {
 
     const route = useRoute();
-    const { analysisData } = route.params || {};
+    const { userData } = route.params;
+    const [analysisResultsData, setAnalysisResultsData] = useState([]);
 
     // data vacía para debug
     DATA = []
 
     // debugeando que reciba los datos
     useEffect(() => {
-        if (analysisData) {
-            console.log('datos recibidos en resultadosScreen', analysisData)
-        } else {
-            console.log('no se recibieron los datos')
-        }
-    }, [analysisData])
-
-
+        const fetchAnalysisResultsData = async () => {
+            try {
+                const apiResponse = await axios.get(`${URL_API}/analysis-results/detailed/${userData.id}`);
+                if (apiResponse.data.success) {
+                    setAnalysisResultsData(apiResponse.data.data);
+                    console.log('Datos de análisis detallados recibidos:', apiResponse.data.data); // Usar directamente la respuesta
+                }
+            } catch (error) {
+                console.error('Error al obtener los resultados de análisis', error);
+            }
+        };
+        fetchAnalysisResultsData();
+    }, []);
 
     const renderTable = (data) => (
         <View style={styles.tableView}>
@@ -40,19 +48,19 @@ export default function HomeScreen() {
                         { backgroundColor: index % 2 === 0 ? '#BDC3C7' : '#A8BFCE' },
                     ]}
                 >
-                    <Text style={styles.textRow}>{item.parameter}</Text>
+                    <Text style={styles.textRow}>{item.ReferenceValue.Parameter.name}</Text>
                     <Text style={styles.textRow}>{item.value}</Text>
-                    <Text style={styles.textRow}>{item.min_range}</Text>
-                    <Text style={styles.textRow}>{item.max_range}</Text>
-                    <Text style={styles.textRow}>{item.unit}</Text>
+                    <Text style={styles.textRow}>{item.ReferenceValue.min_range}</Text>
+                    <Text style={styles.textRow}>{item.ReferenceValue.max_range}</Text>
+                    <Text style={styles.textRow}>{item.ReferenceValue.unit}</Text>
                 </View>
             ))}
         </View>
     );
 
-    const FormulaRoja = () => renderTable(DATA);
-    const FormulaBlanca = () => renderTable(DATA);
-    const FormulaTrombocitica = () => renderTable(DATA);
+    const FormulaRoja = () => renderTable(analysisResultsData.filter(item => item.ReferenceValue.Parameter.formula_id === 1));
+    const FormulaBlanca = () => renderTable(analysisResultsData.filter(item => item.ReferenceValue.Parameter.formula_id === 2));
+    const FormulaTrombocitica = () => renderTable(analysisResultsData.filter(item => item.ReferenceValue.Parameter.formula_id === 3));
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         { key: 'roja', title: 'Fórmula Roja' },
