@@ -31,7 +31,7 @@ export default function HomeScreen() {
         <TouchableOpacity
             onPress={() => {
                 console.log('mandando datos...', item)
-                navigation.navigate('ResultadosScreen', { analysisData: item })
+                navigation.navigate('ResultadosScreen', { userData: item })
             }
             }
         >
@@ -44,7 +44,7 @@ export default function HomeScreen() {
                 <Text style={styles.textRow}>{new Date(item.date).toLocaleDateString()}</Text>
                 <Text style={styles.textRow}>{item.description}</Text>
                 <Text style={styles.textRow}>{item.status}</Text>
-                <Text style={styles.textRow}>{item.lab_name}</Text>
+                <Text style={styles.textRow}>{item.Lab.name}</Text>
             </View>
         </TouchableOpacity>
     );
